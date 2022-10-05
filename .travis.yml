@@ -1,0 +1,19 @@
+language: generic 
+sudo: required # need superuser permission
+
+services:
+  - docker # Travis needs a copy of docker ready to go
+
+# This image name will only be used in Travis
+before_install:
+  - docker build -t leonid11235/docker-react -f Dockerfile.dev .
+
+# when tests are run on Travis CI
+# Travis assumes tests run and exists automatically
+# however default behavior of npm run test, is run one on time
+# and then present menu
+# hangs and never exits
+# so we need to add -- -- coverage
+# but after an update, we achieve the same thing with -e CI=true
+script:
+  - docker run -e CI=true leonid11235/docker-react npm run test
