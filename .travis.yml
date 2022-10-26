@@ -15,5 +15,20 @@ before_install:
 # hangs and never exits
 # so we need to add -- -- coverage
 # but after an update, we achieve the same thing with -e CI=true
+# exit with status code 0 is successful
 script:
   - docker run -e CI=true leonid11235/docker-react npm run test
+
+deploy:
+  provider: elasticbeanstalk # Hosting provider like digital ocean
+  region: "us-east-1"
+  app: "docker-react"
+  env: "dockerreact-env"
+  bucket_name: "elasticbeanstalk-us-east-1-793144086309"
+  bucket_path: "docker-react"
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: "$AWS_SECRET_KEY"
+# We need API keys that will give access to AWS account over to Travis CI
+  
