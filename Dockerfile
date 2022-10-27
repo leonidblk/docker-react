@@ -16,6 +16,7 @@ RUN npm run build
 # Second block
 
 FROM nginx
+EXPOSE 80
 # Copy something from other phase we were working on
 COPY --from=builder /app/build /usr/share/nginx/html
 # The "to" path we get from docker nginx docs
